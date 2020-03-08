@@ -123,6 +123,10 @@ export default {
     dumpPrivkey(addr,url){
       return this.$chain33Sdk.dumpPrivkey(addr, url)
     },
+    // 导出私钥
+    importPrivKey(privkey, label,url){
+      return this.$chain33Sdk.importPrivKey(privkey, label, url)
+    },
 
 
     getAddrBalance(addr, execer, url, asset_exec, asset_symbol) {

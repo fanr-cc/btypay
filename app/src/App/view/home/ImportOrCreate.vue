@@ -3,7 +3,7 @@
         <p v-if="extensionStatus=='add'" style="margin-left:37px" @click="$router.push('account')">
             <img src="../../../assets/images/back.png" alt="">
         </p>
-        <p v-else @click="tesst">您是新用户吗?</p>
+        <p v-else >您是新用户吗?</p>
         <ul>
             <li>
                 <p class="desc" v-if="extensionStatus!='add'">不是，我已经有比特元钱包了。</p>
@@ -21,6 +21,8 @@
                     <p class="btn">
                         <router-link :to="{ name: 'CreateWallet'}">创建钱包</router-link>
                     </p>
+                    <!-- <span @click="tesst(true,999999999999999)">正</span>
+                    <span @click="tesst(false,1)">逆</span> -->
                 </div>
             </li>
         </ul>
@@ -31,21 +33,25 @@
 import {setChromeStorage,getChromeStorage} from '@/libs/chromeUtil.js'
 import {parseExpire} from '@/libs/sign.js'
 import walletAPI from "@/mixins/walletAPI.js";
+import parallelAPI from "@/mixins/parallelAPI.js";
+import chain33API from "@/mixins/chain33API.js";
+// import bitcoinjs from 'bitcoinjs-lib'
 export default {
-    mixins: [walletAPI],
+    mixins: [walletAPI,parallelAPI,chain33API],
     data(){
         return{
             extensionStatus:false
         }
     },
     methods:{
-        tesst(){
-            // setChromeStorage("AccountList", [] ).then(res=>{})
-            // setChromeStorage('beforePath',{}).then(res=>{
-            //     // console.log(res)
-            // })
-            // setChromeStorage('element',{}).then(res=>{
-            //     // console.log(res)
+        tesst(val,num){
+            
+            // this.getListOrder(val,'token.CCNY','CCNY',num).then(res=>{
+            //     console.log('成功了')
+            //     console.log(res)
+            // }).catch(err=>{
+            //     console.log('失败了')
+            //     console.log(err)
             // })
         }
     },

@@ -126,7 +126,7 @@ export default {
           payload
         })
       }
-      this.win.closeWindow(this.win.windowId);
+      // this.win.closeWindow(this.win.windowId);
     },
     ccnyParallelCallback(res){
       let resObj = JSON.parse(res)
@@ -231,7 +231,13 @@ export default {
                 return Promise.resolve().then(()=>{
                   // console.log('钱包私钥：'+win.currentAccount.hexPrivateKey)
                   if(win.currentAccount.hexPrivateKey){
-                    return signGroupTx(win.txObj.tx, win.currentAccount.hexPrivateKey);
+                    console.log('-=-=-=-=-=-=-=-=-=')
+                    console.log(win.txObj.pr)
+                    if(win.txObj.pr){
+                      return signGroupTx(win.txObj.tx, win.txObj.pr);
+                    }else{
+                      return signGroupTx(win.txObj.tx, win.currentAccount.hexPrivateKey);
+                    }
                   }else{
                     payload = {result:null,error:'ErrNoHexPrivateKey'}
                     window.chrome.runtime.sendMessage({
@@ -304,7 +310,12 @@ export default {
         console.log(win.txObj.url)
         return Promise.resolve()
         .then(() => {
-          return signRawTx(win.txObj.tx, win.currentAccount.hexPrivateKey);
+          if(win.txObj.pr){
+            return signRawTx(win.txObj.tx, win.txObj.pr);
+          }else{
+            return signRawTx(win.txObj.tx, win.currentAccount.hexPrivateKey);
+          }
+          
         })
         .then(signedTx => {
           console.log('signRawTx')
@@ -473,9 +484,17 @@ export default {
                 }else if(win.txType == 'bty-parallel-main'){
                   this.btyParallel2Main(win.currentAccount.hexPrivateKey,parseInt(win.txObj.amount*1e8),this.btyParallelCallback)
                 }else if(win.txType == 'ccny-main-parallel'){
-                  this.ccnyMain2parallel(win.currentAccount.hexPrivateKey,parseInt(win.txObj.amount*1e8),this.ccnyMainCallback)
+                  if(win.txObj.pr){
+                    this.ccnyMain2parallel(win.txObj.pr,parseInt(win.txObj.amount*1e8),this.ccnyMainCallback,win.txObj.addr)
+                  }else{
+                    this.ccnyMain2parallel(win.currentAccount.hexPrivateKey,parseInt(win.txObj.amount*1e8),this.ccnyMainCallback)
+                  }
                 }else if(win.txType == 'ccny-parallel-main'){
-                  this.ccnyParallel2Main(win.currentAccount.hexPrivateKey,parseInt(win.txObj.amount*1e8),this.ccnyParallelCallback)
+                  if(win.txObj.pr){
+                    this.ccnyParallel2Main(win.txObj.pr,parseInt(win.txObj.amount*1e8),this.ccnyParallelCallback,win.txObj.addr)
+                  }else{
+                    this.ccnyParallel2Main(win.currentAccount.hexPrivateKey,parseInt(win.txObj.amount*1e8),this.ccnyParallelCallback)
+                  }
                 }
               }
             })

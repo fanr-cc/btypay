@@ -101,7 +101,7 @@ chrome.runtime.onMessage.addListener(({action = '', payload}, sender) => {
         txType = 'send-tx'
         payload.actionID = action
         txObj = payload;
-        // console.log(payload)
+        console.log(payload)
         createNewWindow('outExtensionPage', payload)
         // setTimeout(() => {
         //   isSignTx()

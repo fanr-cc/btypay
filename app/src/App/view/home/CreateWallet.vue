@@ -25,6 +25,7 @@
 import AssetBack from "@/components/AssetBack.vue";
 import recover from "@/mixins/recover.js";
 import {getChromeStorage,setChromeStorage} from '@/libs/chromeUtil.js'
+import {ListOrder} from '@/http/rpc.js'
 export default {
   mixins:[recover],
   components: { AssetBack },
@@ -71,9 +72,45 @@ export default {
           })
         }
       });
+    },
+    getListOrder(){
+      let obj = {
+        match: [
+          {
+            key: "owner",
+            value: "16eLrhNdojfhmaFPV8czBrLgUBX5Xcr6gM"
+          },
+          {
+            key: "price_symbol",
+            value: "token.CCNY"
+          },
+          {
+            key: "asset_symbol",
+            value: "CCNY"
+          },
+          {
+            key: "status",
+            value: "created"
+          }
+        ],
+        page: {
+          number: 1,
+          size: 10
+        },
+        sort: [
+          {
+            key: "height_index",
+            ascending: false
+          }
+        ]
+      }
+      ListOrder(obj).then(res=>{
+        console.log(res)
+      })
     }
   },
   mounted(){
+    // this.getListOrder()
     getChromeStorage("extensionStatus").then(res=>{
       console.log(res)
       if (res.extensionStatus == 'add'){

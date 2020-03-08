@@ -257,3 +257,9 @@ export function protobufDecodePayload(tx){
     let coinsActionsData = protobufDecode(CoinsAction, txData.payload)
     return coinsActionsData
 }
+// export function pri2addr(pri){
+//     let priKey = '0x3a7caed719556b0e36ff7c29c7d021e69825bb0ca41653e3a2ff7af79de59de0'
+//     let pubkey = bitcoinjs.ECPair.fromPrivateKey(fromHexString(priKey)).publicKey
+//     let address = bitcoinjs.payments.p2pkh({ pubkey }).address
+//     console.log(address)
+// }
